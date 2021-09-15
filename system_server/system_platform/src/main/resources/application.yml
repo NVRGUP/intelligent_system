@@ -14,3 +14,5 @@ spring:
     url: jdbc:mysql://localhost:3306/hospital_system?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
     username: root
     password: 649721
+server:
+  port: 8081

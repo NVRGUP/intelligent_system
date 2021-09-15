@@ -7,7 +7,7 @@ function resolve(dir) {
 }
 
 const name = defaultSettings.title // 网址标题
-const port = 8080 // 端口配置
+const port = 80 // 端口配置
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -18,30 +18,25 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  // devServer: {
-  //   port: port,
-  //   open: true,
-  //   overlay: {
-  //     warnings: false,
-  //     errors: true
-  //   },
-  //   proxy: {
-  //     '/api': {
-  //       target: process.env.VUE_APP_BASE_API,
-  //       changeOrigin: true,
-  //       pathRewrite: {
-  //         '^/api': 'api'
-  //       }
-  //     },
-  //     '/auth': {
-  //       target: process.env.VUE_APP_BASE_API,
-  //       changeOrigin: true,
-  //       pathRewrite: {
-  //         '^/auth': 'auth'
-  //       }
-  //     }
-  //   }
-  // },
+  devServer: {
+    port: port,
+    open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    },
+    proxy: {
+      '/api': {
+        // target: 'http://localhost:8081/',
+        target: process.env.VUE_APP_BASE_API,
+        changeOrigin: true,
+        ws:true,
+        pathRewrite: {
+          '^/api': '',
+        }
+      }
+    }
+  },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.

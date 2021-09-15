@@ -15,11 +15,17 @@ const routes = [
         path:'/login',
         name:'Login',
         component:()=>import('../components/Login.vue')
+    },
+    {
+        path:'/home',
+        name:'Home',
+        component: Home
     }
 
 ]
 const router =new VueRouter(
     {
+        mode:'history',
         routes
     }
 )
