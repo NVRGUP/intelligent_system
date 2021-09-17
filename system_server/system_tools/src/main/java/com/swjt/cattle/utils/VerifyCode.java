@@ -1,15 +1,11 @@
 package com.swjt.cattle.utils;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 
 public class VerifyCode {
     private int w = 70;

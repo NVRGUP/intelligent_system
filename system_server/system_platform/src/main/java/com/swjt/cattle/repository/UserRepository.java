@@ -6,7 +6,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-//userJPA
 public interface UserRepository extends JpaRepository<User,Integer> {
-    public List<User> findByUserName(String userName);
+    /**
+     * 根据id查询某个用户
+     * @param id
+     * @return
+     */
+    User findById(String id);
+    /**
+     * login登录
+     * @param userName
+     * @param userPwd
+     * @return User
+     */
+    public User findByUserNameAndUserPwd(String userName,String userPwd);
+
 }

@@ -31,7 +31,7 @@ public class SwaggerConfig {
                 .title("医院智能系统")
                 .description("医院智能系统 API 1.0 操作文档")
                 //服务条款网址
-//                .termsOfServiceUrl("https://blog.csdn.net/weixin_42405670")
+//                .termsOfServiceUrl("https://blog.csdn.net/")
                 .version("1.0")
                 .build();
     }

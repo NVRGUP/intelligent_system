@@ -1,4 +1,4 @@
-# 智能医院
-## introduce
-* 前端框架：Vue+Element-ui
-+ 后端框架：Springboot+Spring data jpa+swagger-ui+spring redis+spring security
+# Intelligent-system
+## Introduce
+* 前端框架：Vue+Element-ui+Vuex+Vue-router
++ 后端框架：Springboot+Spring data jpa+swagger-ui+spring redis+spring security+spring framework MVC
