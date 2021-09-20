@@ -16,3 +16,5 @@ spring:
     password: 649721
 server:
   port: 8081
+  tomcat:
+    uri-encoding: UTF-8

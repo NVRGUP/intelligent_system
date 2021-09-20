@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px"
              class="login-form">
       <h3 class="title">
-        勇敢牛牛不怕困难-智能系统
+        勇敢牛牛不怕困难-心愿盒子
       </h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号"
@@ -18,21 +18,20 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="code">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%">
+        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="onSubmit()">
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>
         </el-input>
-        <!--        <div class="login-code">-->
-        <!--          <img :src="codeUrl">-->
-        <!--        </div>-->
+        <div class="login-code">
+          <img :src="codeUrl" @click="getCode">
+        </div>
       </el-form-item>
-      <el-form-item>
-        <el-radio v-model="radio1" label="1" border>医生</el-radio>
-        <el-radio v-model="radio1" label="2" border>病人</el-radio>
-        <el-radio v-model="radio1" label="3" border>管理员</el-radio>
+      <el-form-item style="margin-left: 10%">
+        <el-radio v-model="radio1" label="1" border>普通用户</el-radio>
+        <el-radio v-model="radio1" label="2" border>管理员</el-radio>
       </el-form-item>
-      <el-form-item style="margin: 0 0 25px 0">
-        <span>记住账号？</span>
-        <el-switch
+      <el-form-item style="margin: 0 0 20px 0">
+        <span style="font-family: 'Times New Roman';font-size: 10px">记住账号？</span>
+        <el-switch style="font-family: 'Times New Roman';font-size: 10px"
             v-model="loginForm.rememberMe"
             active-text="Yes"
             inactive-text="No"
@@ -43,7 +42,7 @@
 
       <el-form-item style="width:100%;">
         <el-button :loading="loading" size="medium" type="primary" style="width:100%;"
-                   @click.native.prevent="onSubmit(loginForm)">
+                   @click.native.prevent="onSubmit()">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
@@ -60,16 +59,14 @@
 <script>
 
 import Background from '@/assets/background.jpg'
-// import {getCodeImg} from '@/api/login'
 import Cookies from 'js-cookie'
 import Config from '@/settings'
-import request from "@/utils/request";
 
 export default {
   name: "Login",
   data() {
     return {
-      codeUrl: '',
+      codeUrl: '/api/user/code',
       Background: Background,
       loginForm: {
         username: '',
@@ -89,32 +86,23 @@ export default {
     }
   },
   created() {
-    // 获取验证码
-    // this.getCode()
     // 获取用户名密码等Cookie
     this.getCookie()
-    // token 过期提示
-    // this.point()
   },
   methods: {
-    // getCode() {
-    //   getCodeImg().then(res => {
-    //     this.codeUrl = res.img
-    //     // this.loginForm.uuid = res.uuid
-    //   })
-    // },
+    getCode() {
+      this.codeUrl+='?'
+    },
     getCookie() {
       const username = Cookies.get('username')
       let password = Cookies.get('password')
       const rememberMe = Cookies.get('rememberMe')
       // 保存cookie里面的加密后的密码
-      // this.cookiePass = password === undefined ? '' : password
       password = password === undefined ? this.loginForm.password : password
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password: password,
         rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
-        code: ''
       }
     },
     onSubmit() {
@@ -123,8 +111,8 @@ export default {
           const user = {
             userName: this.loginForm.username,
             userPwd: this.loginForm.password,
-            rememberMe: this.loginForm.rememberMe
-            // code: this.loginForm.code,
+            rememberMe: this.loginForm.rememberMe,
+            code: this.loginForm.code
           }
           if (valid) {
             this.loading = true
@@ -138,16 +126,27 @@ export default {
               Cookies.remove('rememberMe')
             }
             this.$store.dispatch('Login', user).then(() => {
+              this.$message({
+                showClose: true,
+                message: '登录成功，欢迎您！',
+                type:"success"
+              });
               this.loading = false
               this.$router.push( '/home')
             }).catch(() => {
               this.loading = false
-              // this.getCode()
+              this.getCode()
+              this.$message({
+                showClose: true,
+                message: '登录失败，请输入正确内容！',
+                type:"error"
+              });
             })
           } else {
             this.$message({
               showClose: true,
-              message: '请按要求输入内容'
+              message: '请按要求输入内容',
+              type:"warning"
             });
             return false;
           }
@@ -177,6 +176,8 @@ export default {
   border-radius: 6px;
   background: #ffffff;
   padding: 25px 25px 5px 25px;
+  width: 380px;
+  height: auto;
 
   .el-input {
     height: 38px;
@@ -200,9 +201,9 @@ export default {
 }
 
 .login-code {
-  width: 33%;
+  width: auto;
   display: inline-block;
-  height: 38px;
+  height: 50px;
   float: right;
 
   img {

@@ -1,24 +1,21 @@
 import request from '@/utils/request'
-import {use} from "element-ui";
+// import {use} from "element-ui";
 
-export function login(userName, userPwd) {
-  console.log(userName,userPwd)
+export function login(userName, userPwd, code) {
   return request({
-    url: `/api/user/login?userName=${userName}&userPwd=${userPwd}`,
-    method: 'GET',
+    url: `/api/user/login`,
+    data:{
+      userName:userName,
+      userPwd:userPwd,
+      code:code
+    },
+    method: 'post'
   })
 }
 
 export function getInfo() {
   return request({
     url: 'auth/info',
-    method: 'get'
-  })
-}
-
-export function getCodeImg() {
-  return request({
-    url: 'user/code',
     method: 'get'
   })
 }

@@ -31,17 +31,16 @@ const user = {
     Login({ commit }, userInfo) {
       const rememberMe = userInfo.rememberMe;
       return new Promise((resolve, reject) => {
-        login(userInfo.userName, userInfo.userPwd).then(res => {
-          if(res.data===true){
-          setToken(res.token, rememberMe)
-          commit('SET_TOKEN', res.token)
-          // setUserInfo(res.user, commit)
-          // 第一次加载菜单时用到， R具体见 src 目录下的 permission.js
-          resolve()
+        login(userInfo.userName, userInfo.userPwd,userInfo.code).then(res => {
+          if(res.data!=false){
+            setToken(res.token, rememberMe)
+            commit('SET_TOKEN', res.token)
+            // setUserInfo(res.user, commit)
+            // 第一次加载菜单时用到， R具体见 src 目录下的 permission.js
+            resolve()
           }
           else{
-            alert("錯誤")
-            reject("錯誤")
+            reject("登录发生錯誤！！")
           }
         }).catch(error => {
           reject(error)
